@@ -1,7 +1,5 @@
-package com.example.demo.exception;
+package com.example.demo;
 
-import com.example.demo.AppUser;
-import com.example.demo.AppUserRepository;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
