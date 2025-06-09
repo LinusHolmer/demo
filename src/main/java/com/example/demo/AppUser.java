@@ -51,4 +51,12 @@ public class AppUser {
     public void setRole(String role) {
         this.role = role;
     }
+
+    public boolean isConsentGiven() {
+        return consentGiven;
+    }
+
+    public void setConsentGiven(boolean consentGiven) {
+        this.consentGiven = consentGiven;
+    }
 }

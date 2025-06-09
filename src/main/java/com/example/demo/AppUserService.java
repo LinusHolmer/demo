@@ -19,7 +19,7 @@ public class AppUserService {
             throw new RuntimeException("Username already exists");
         }
 
-        UserEntity user = new UserEntity();
+        AppUser user = new AppUser();
         user.setUsername(dto.getUsername());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setRole(dto.getRole());
