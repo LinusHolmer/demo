@@ -8,9 +8,11 @@ import java.util.List;
 public class AppUserController {
 
     private final AppUserRepository appUserRepository;
+    private final AppUserService appUserService;
 
-    public AppUserController(AppUserRepository appUserRepository) {
+    public AppUserController(AppUserRepository appUserRepository, AppUserService appUserService) {
         this.appUserRepository = appUserRepository;
+        this.appUserService = appUserService;
     }
 
     @GetMapping

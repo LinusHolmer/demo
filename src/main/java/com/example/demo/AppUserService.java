@@ -14,10 +14,8 @@ public class AppUserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void registerUser(UserDTO dto) {
-        if (appUserRepository.findByUsername(dto.getUsername())) {
-            throw new RuntimeException("Username already exists");
-        }
+    public AppUser registerUser(UserDTO dto) {
+
 
         AppUser user = new AppUser();
         user.setUsername(dto.getUsername());
@@ -25,6 +23,11 @@ public class AppUserService {
         user.setRole(dto.getRole());
         user.setConsentGiven(dto.isConsentGiven());
 
-        appUserRepository.save(user);
+        return appUserRepository.save(user);
     }
+
+
+
+
+
 }
