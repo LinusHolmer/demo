@@ -2,6 +2,10 @@ package com.example.demo;
 
 import jakarta.validation.constraints.*;
 
+/**
+ * 
+ */
+
 public class UserDTO {
 
   @NotBlank(message = "Username is required")

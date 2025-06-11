@@ -5,6 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * Handles logic for AppUserController for POST and DELETE
+ */
+
 @Service
 public class AppUserService {
 
@@ -21,7 +25,12 @@ public class AppUserService {
         this.loggingComponent = loggingComponent;
     }
 
-    // Registers a user and loggs it
+    /**
+     * Registers a new user if validation is successful, also logs it
+     *
+     * @param dto - to use validation
+     * @return registers AppUser
+     */
     public AppUser registerUser(UserDTO dto) {
         AppUser user = new AppUser();
         user.setUsername(dto.getUsername());
@@ -32,7 +41,12 @@ public class AppUserService {
 
         return appUserRepository.save(user);
     }
-    //Delets a user and loggs it
+
+    /**
+     * Deletes a user by id, throws exception if user is not found, also logs it
+     *
+     * @param id - AppUser ID
+     */
     public void deleteUser(Long id) {
         if (!appUserRepository.existsById(id)) {
             loggingComponent.logError("Kan inte ta bort användare som inte finns, ID: " + id);

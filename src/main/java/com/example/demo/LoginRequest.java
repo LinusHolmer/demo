@@ -2,6 +2,10 @@ package com.example.demo;
 
 import java.util.Objects;
 
+/**
+ * LoginRequest is used for when a client send usernames and password with a POST-request to the app, to get a JWT-token back
+ */
+
 public class LoginRequest {
     private final String username;
     private final String password;

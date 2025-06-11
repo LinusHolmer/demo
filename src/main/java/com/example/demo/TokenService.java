@@ -11,10 +11,8 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.stream.Collectors;
 
-/*
-
-Purpose of TokenService: Takes a authenticated user, creates a JWT-token with info on user, returns as a string
-
+/**
+ * Takes a authenticated user, creates a JWT-token with info on user, returns as a string
  */
 
 @Service
@@ -26,7 +24,12 @@ public class TokenService {
         this.jwtEncoder = jwtEncoder;
     }
 
-    // Creates a JWT-token for user
+    /**
+     *
+     *
+     * @param authentication
+     * @return
+     */
     public String generateToken(Authentication authentication) {
         Instant now = Instant.now();
 

@@ -2,6 +2,11 @@ package com.example.demo;
 
 import jakarta.persistence.*;
 
+/**
+ * Entity class for a user, @column defines columns in sql
+ */
+
+
 @Entity
 public class AppUser {
     @Id
