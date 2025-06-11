@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class AppUserController {
     }
 
     @PostMapping
-    public AppUser createUser(@RequestBody UserDTO dto) {
+    public AppUser createUser(@RequestBody @Valid UserDTO dto) {
         return appUserService.registerUser(dto);
     }
 
