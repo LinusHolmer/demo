@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.exception.UserNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +10,9 @@ public class AppUserService {
 
     private final AppUserRepository appUserRepository;
     private final PasswordEncoder passwordEncoder;
-    private final LoggingComponent loggingComponent;
+    @Autowired
+    private LoggingComponent loggingComponent;
+
 
 
     public AppUserService(AppUserRepository appUserRepository, PasswordEncoder passwordEncoder, LoggingComponent loggingComponent) {
