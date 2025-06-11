@@ -23,8 +23,8 @@ public class AppUserController {
     }
 
     @PostMapping
-    public AppUser createUser(@RequestBody AppUser appUser) {
-        return appUserRepository.save(appUser);
+    public AppUser createUser(@RequestBody UserDTO dto) {
+        return appUserService.registerUser(dto);
     }
 
     @GetMapping("/{id}")
@@ -34,7 +34,7 @@ public class AppUserController {
 
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {
-        appUserRepository.deleteById(id);
+        appUserService.deleteUser(id);
     }
 }
 
