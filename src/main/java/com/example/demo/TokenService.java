@@ -25,10 +25,10 @@ public class TokenService {
     }
 
     /**
+     * generates a jwt-token for auth user
      *
-     *
-     * @param authentication
-     * @return
+     * @param authentication - auth user info
+     * @return jwt token string
      */
     public String generateToken(Authentication authentication) {
         Instant now = Instant.now();

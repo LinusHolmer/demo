@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -60,8 +61,9 @@ public class AppUserController {
      * @param id - Users id in database
      */
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         appUserService.deleteUser(id);
+        return ResponseEntity.noContent().build();
     }
 }
 

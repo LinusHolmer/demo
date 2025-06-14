@@ -25,13 +25,21 @@ import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
 
 /**
- *
+ * Handles what kind of http requests you can do and has methods for JWT auth/JWT setup
  */
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
+    /**
+     * Controlls what kind of http request you can do
+     * jwt auth for protected endpoints
+     *
+     * @param http - HttpSecurity object
+     * @return configured securityfilterchain
+     * @throws Exception if it fails
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -61,14 +69,23 @@ public class SecurityConfig {
 
         return http.build();
     }
-    // Encrypts and verifies passwords
+
+    /**
+     * Defines the password encooder, encrypts and verifies passwords
+     *
+     * @return instace of BCryptPasswordEncoder
+     */
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
-
-    // Generates 1 public, 1 private RSA keypair
+    /**
+     * Generates 1 public, 1 private RSA keypair
+     *
+     * @return keypair with rsa keys
+     * @throws NoSuchAlgorithmException is rsa fails
+     */
     @Bean
     public KeyPair keyPair() throws NoSuchAlgorithmException {
         KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
@@ -76,7 +93,12 @@ public class SecurityConfig {
         return generator.generateKeyPair();
     }
 
-    // Builds one JSON Web Key-format from a keypair
+    /**
+     * Builds one JSON Web Key-format from a keypair
+     *
+     * @param keyPair - rsa key pair
+     * @return jwksource for nimbusjwtencoder
+     */
     @Bean
     public JWKSource<SecurityContext> jwkSource(KeyPair keyPair) {
         RSAKey rsaKey = new RSAKey.Builder((RSAPublicKey) keyPair.getPublic())
@@ -87,19 +109,35 @@ public class SecurityConfig {
         return (jwkSelector, context) -> jwkSelector.select(jwkSet);
     }
 
-    // Creates a JWT
+    /**
+     * Creates a JWT
+     *
+     * @param jwkSource - source of cryptographic keys for creating jwt
+     * @return instance of jwtencoder
+     */
     @Bean
     public JwtEncoder jwtEncoder(JWKSource<SecurityContext> jwkSource) {
         return new NimbusJwtEncoder(jwkSource);
     }
 
-    // Used for reading and verifying a JWT
+    /**
+     * Used for reading and verifying a JWT
+     *
+     * @param keyPair - rsa key pair
+     * @return instance of jwtdecoder
+     */
     @Bean
     public JwtDecoder jwtDecoder(KeyPair keyPair) {
         return NimbusJwtDecoder.withPublicKey((RSAPublicKey) keyPair.getPublic()).build();
     }
 
-    // Authenticates user when logging in
+    /**
+     * Authenticates user when logging in
+     *
+     * @param userDetailsService - loading userdata
+     * @param passwordEncoder - for password hashing
+     * @return instance of authmanager
+     */
     @Bean
     public AuthenticationManager authenticationManager(
             UserDetailsService userDetailsService,
@@ -110,7 +148,11 @@ public class SecurityConfig {
         return new ProviderManager(provider);
     }
 
-    // Translates token claims to roles in Spring Security
+    /**
+     * Translates token claims to roles in Spring Security
+     *
+     * @return configured jwtauthconverter
+     */
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter(){
         JwtGrantedAuthoritiesConverter converter = new JwtGrantedAuthoritiesConverter();
@@ -120,6 +162,35 @@ public class SecurityConfig {
         JwtAuthenticationConverter authenticationConverter = new JwtAuthenticationConverter();
         authenticationConverter.setJwtGrantedAuthoritiesConverter(converter);
         return authenticationConverter;
+    }
+
+
+    /**
+     * SecurityFilterChain for the test databse
+     *
+     * @param http - HttpSecurity object
+     * @return test configured securityfilterchain
+     * @throws Exception if it fails
+     */
+    @Bean
+    @Profile("test")
+    public SecurityFilterChain testFilterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/request-token").permitAll()
+                        .requestMatchers("/api/**").authenticated()
+                        .anyRequest().authenticated()
+                )
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .oauth2ResourceServer(oauth2 ->
+                        oauth2.jwt(jwt ->
+                                jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())
+                        )
+                );
+        return http.build();
     }
 
 

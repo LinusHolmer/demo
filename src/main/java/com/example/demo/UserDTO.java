@@ -3,6 +3,12 @@ package com.example.demo;
 import jakarta.validation.constraints.*;
 
 /**
+ * DTO class for validating user registration
+ *
+ * @NotBlank - it cant be blank
+ * @Size - how long it must be
+ * @Pattern - @Size + if you want user to always include numbers and special chars
+ * @AssertTrue - is consentGiven = true?
  *
  */
 
