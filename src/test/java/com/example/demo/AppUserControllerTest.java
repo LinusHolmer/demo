@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -31,17 +32,18 @@ class AppUserControllerTest {
     private MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     @BeforeEach
     void setUp() {
-        appUserRepository.deleteAll();
-        AppUser appUser = new AppUser();
-        appUser.setUsername("admin");
-        appUser.setPassword("admin");
-        appUser.setRole("ADMIN");
-        appUser.setConsentGiven(true);
-        appUserRepository.save(appUser);
+        AppUser adminUser = new AppUser();
+        adminUser.setUsername("admin");
+        adminUser.setPassword(passwordEncoder.encode("admin")); // Encode password
+        adminUser.setRole("ADMIN");
+        adminUser.setConsentGiven(true);
+        appUserRepository.save(adminUser);
     }
 
     @Test
