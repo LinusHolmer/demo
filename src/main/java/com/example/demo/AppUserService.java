@@ -15,8 +15,7 @@ public class AppUserService {
 
     private final AppUserRepository appUserRepository;
     private final PasswordEncoder passwordEncoder;
-    @Autowired
-    private LoggingComponent loggingComponent;
+    private final LoggingComponent loggingComponent;
 
 
 
