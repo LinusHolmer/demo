@@ -43,7 +43,8 @@ public class AppUserService {
     }
 
     /**
-     * Deletes a user by id, throws exception if user is not found, also logs it
+     * Deletes a user by id,
+     * throws exception if user is not found, also logs it
      *
      * @param id - AppUser ID
      */

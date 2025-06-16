@@ -6,7 +6,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * Extends JpaRepository to get standard CRUD operations, to access AppUser from db
+ * Extends JpaRepository to get standard CRUD operations
+ * to access AppUser from db
  */
 
 @Repository
